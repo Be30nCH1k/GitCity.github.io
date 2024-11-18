@@ -485,9 +485,6 @@ body {
   color: #fff;
 }
 
-
-
-
 .btn {
 	background-color: #2A265F;
 	border: 0;
@@ -511,6 +508,7 @@ body {
 	transition: transform 0.4s ease-in-out;
   @media (max-width:376px) {
     left: 20px;
+    bottom: 275px;
   }
 }
 
@@ -532,6 +530,9 @@ body {
 	height: 900px;	
 	width: 750px;
 	max-width: calc(100% - 10px);
+  @media(max-width:376px) {
+    height: 625px;
+  }
 }
 
 .social-panel button.close-btn {
@@ -551,17 +552,68 @@ body {
 }
 .modal__img{
   width: 250px;
-  height: 250px;
+  height: 160px;
 }
 .modal__box{
   display: flex;
+  justify-content: space-around;
   padding: 0px 35px;
+  @media (max-width:376px) {
+    display: block;
+  }
 }
 .modal__title{
   font-size: 24px;
   text-align: center;
   padding-bottom: 20px;
+  @media (max-width:376px) {
+    font-size: 12px;
+    padding-top: 35px;
+  }
 }
 #map{
   padding-top: 100px;
+  height: 400px;
+  @media (max-width:376px) {
+   padding-top: 10px;
+   height: 240px;
+  }
 }
+.modal__text{
+  @media (max-width:376px) {
+    font-size: 12px;
+  }
+}
+#pagination button{
+  width: 40px;
+  font-size: 20px;
+  margin-left: 10px;
+  border-radius: 7px;
+  padding: 10px;
+  background-color: #179cd1;
+  color: #fff;
+  border: 0px;
+  transition: ease 0.2s;
+
+}
+#pagination button:hover{
+  width: 60px;
+  background-color: #48ced379;
+  color: #3d5c70;
+}
+#pagination{
+  justify-content: center;
+  display: flex;
+}
+.loader {
+  position: fixed;
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  font-size: 24px; 
+  color: #ffffff; 
+  padding: 20px; 
+  border-radius: 5px;
+  background-color: #000;
+}
+
