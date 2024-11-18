@@ -6,49 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-        #preloader {
-            position:fixed;
-            top:0;
-            left:0;
-            right:0;
-            bottom:0;
-            background-color: #fff;
-            z-index:999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .preloader-animation {
-            animation: rotation 1s linear infinite;
-            border: 5px solid #b7cde3;
-            border-radius: 50%;
-            border-top-color: #2c3e50;
-            height: 50px;
-            width: 50px;
-        }
-        
-        @keyframes rotation {
-            to {
-                transform: rotate(1turn);
-            }
-        }
-        </style>
-        
-        <div id="preloader">
-            <div class="preloader-animation">
-            </div>
-        </div>
-        
-
+        #map { height: 400px; }
+    </style>
 </head>
 <body>
     <div id="map"></div>
 
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        $(window).load(function(){
-            $('#preloader').fadeOut();
-        });
-        </script>
+        // Создаем карту и устанавливаем начальные координаты и масштаб
+        let map = L.map('map').setView([55.7558, 37.6173], 10); // Координаты Москвы
+
+        // Добавляем слой карты
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // Добавляем маркер на карту
+        let marker = L.marker([55.7558, 37.6173]).addTo(map);
+        marker.bindPopup('<b>Москва!</b>').openPopup();
+    </script>
 </body>
 </html>
