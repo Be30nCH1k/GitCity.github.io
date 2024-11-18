@@ -604,6 +604,9 @@ body {
 #pagination{
   justify-content: center;
   display: flex;
+  @media (max-width:376px) {
+    padding-top: 20px;
+  }
 }
 .loader {
   position: fixed;
@@ -617,3 +620,19 @@ body {
   background-color: #000;
 }
 
+#sortName{
+  background-color: #01b3a7;
+  padding: 15px 25px;
+  font-size: 16px;
+  border: 0px;
+  border-radius: 10px;
+  transition: ease 0.4s;
+  margin-left: 200px;
+  @media (max-width:376px) {
+    margin-left: 70px;
+  }
+}
+#sortName:hover{
+  background-color: #fff;
+  color: #179cd1;
+}
