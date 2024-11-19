@@ -594,9 +594,10 @@ body {
   color: #fff;
   border: 0px;
   transition: ease 0.2s;
-
+  margin-top: 20px;
 }
 #pagination button:hover{
+
   width: 60px;
   background-color: #48ced379;
   color: #3d5c70;
@@ -606,6 +607,7 @@ body {
   display: flex;
   @media (max-width:376px) {
     padding-top: 20px;
+    display: block;
   }
 }
 .loader {

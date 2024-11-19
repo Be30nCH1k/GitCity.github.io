@@ -6,49 +6,48 @@ const closeBtn = document.querySelector('.close-btn');
 const socialPanelContainer = document.querySelector('.social-panel-container');
 const modalSocial = document.querySelector('.obratnuj__zvonok');
 
-const itemOnPage = 3;
+const itemOnPage = 5;
 let currentPage = 1;
 let persone = [];
-
+let filteredPersone = [];
+let totalItems, totalPages;
 
 addEventListener('load', async () => {
-const data = await fetch(mochApi);
-persone = await data.json();
-totalItems = persone.length;
-totalPages = Math.ceil(totalItems / itemOnPage);
+    const data = await fetch(mochApi);
+    persone = await data.json();
+    filteredPersone = [...persone];
+    totalItems = filteredPersone.length;
+    totalPages = Math.ceil(totalItems / itemOnPage);
 
-pageLoader(currentPage);
+    pageLoader(currentPage);
+    search();
 });
 
 closeBtn.addEventListener('click', () => {
-socialPanelContainer.classList.remove('visible');
+    socialPanelContainer.classList.remove('visible');
 });
 
 function showLoader() {
-document.getElementById('loader').style.display = 'block';
+    document.getElementById('loader').style.display = 'block';
 }
 
 function hideLoader() {
-document.getElementById('loader').style.display = 'none';
+    document.getElementById('loader').style.display = 'none';
 }
 
 function loadData() {
-document.getElementById('loader').style.display = 'block';
-setTimeout(() => {
-    document.getElementById('loader').style.display = 'none';
-}, 2000);
-}
-window.onload = loadData;
-
-function pageLoader(card) {
     showLoader();
+}
+
+function pageLoader(item) {
+    showLoader(); 
 
     container.innerHTML = '';
-    const start = (card - 1) * itemOnPage;
+    const start = (item - 1) * itemOnPage;
     const end = Math.min(start + itemOnPage, totalItems);
 
     for (let i = start; i < end; i++) {
-        const t = persone[i];
+        const t = filteredPersone[i];
         const poisk = document.createElement('div');
         poisk.classList.add('info__main');
         poisk.setAttribute('data-title', t.name);
@@ -57,8 +56,8 @@ function pageLoader(card) {
             <div class="info__box">
                 <div class="info__title">${t.name}</div>
                 <button class="info__btn floating-btn" id="btn_${i}">Увидеть больше</button>
-            </div>`
-        ;
+            </div>`;
+        
         container.append(poisk);
 
         let infoBtn = document.getElementById(`btn_${i}`);
@@ -70,7 +69,8 @@ function pageLoader(card) {
                     <div class="modal__text">${t.title}</div>
                     <img class="modal__img" src="${t.img}" alt="${t.name}">
                 </div>
-                <div id="map"></div>`; 
+                <div id="map"></div>`;
+            
             ymaps.ready(() => {
                 const map = new ymaps.Map('map', {
                     center: [t.lat, t.lng],
@@ -80,12 +80,10 @@ function pageLoader(card) {
                 map.geoObjects.add(placemark);
             });
         });
-}
+    }
 
-updatePag();
-search(); 
-
-hideLoader(); 
+    updatePag();
+    hideLoader();
 }
 
 function updatePag() {
@@ -101,29 +99,35 @@ function updatePag() {
 }
 
 function changePage(page) {
-    currentPage = page;
-    pageLoader(currentPage);
+    currentPage = page;    pageLoader(currentPage); 
 }
 
 function search() {
-const infoSections = document.querySelectorAll('.info__main');
-searchInput.addEventListener('input', function() {
-    const query = this.value.toLowerCase();
-    infoSections.forEach(section => {
-        const title = section.getAttribute('data-title').toLowerCase();
-        section.style.display = title.includes(query) ? '' : 'none';
+    searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        filteredPersone = persone.filter(section => 
+            section.name.toLowerCase().includes(query)
+        );
+
+        totalItems = filteredPersone.length; 
+        totalPages = Math.ceil(totalItems / itemOnPage); 
+        currentPage = 1; 
+
+        pageLoader(currentPage); 
     });
-});
 }
 
 function sortData(order) {
-if (order === 'abc') {
-    persone.sort((a, b) => a.name.localeCompare(b.name));
+    if (order === 'abc') {
+        persone.sort((a, b) => a.name.localeCompare(b.name));
+    }
+    filteredPersone = [...persone]; 
+    totalPages = Math.ceil(filteredPersone.length / itemOnPage);
+    pageLoader(currentPage);
 }
-totalPages = Math.ceil(persone.length / itemOnPage);
-pageLoader(currentPage);
-}
+
 document.getElementById('sortName').addEventListener('click', () => {
     sortData('abc');
 });
+
 loadData();
