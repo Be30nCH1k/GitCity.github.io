@@ -48,17 +48,17 @@ function pageLoader(item) {
 
     for (let i = start; i < end; i++) {
         const t = filteredPersone[i];
-        const poisk = document.createElement('div');
-        poisk.classList.add('info__main');
-        poisk.setAttribute('data-title', t.name);
-        poisk.innerHTML = `
+        const search = document.createElement('div');
+        search.classList.add('info__main');
+        search.setAttribute('data-title', t.name);
+        search.innerHTML = `
             <img class="info__img" src="${t.img}" alt="картинки ${i + 1}">
             <div class="info__box">
                 <div class="info__title">${t.name}</div>
                 <button class="info__btn floating-btn" id="btn_${i}">Увидеть больше</button>
             </div>`;
         
-        container.append(poisk);
+        container.append(search);
 
         let infoBtn = document.getElementById(`btn_${i}`);
         infoBtn.addEventListener('click', () => {

@@ -601,10 +601,12 @@ body {
   width: 60px;
   background-color: #48ced379;
   color: #3d5c70;
+  cursor: pointer;
 }
 #pagination{
   justify-content: center;
   display: flex;
+
   @media (max-width:376px) {
     padding-top: 20px;
     display: block;
