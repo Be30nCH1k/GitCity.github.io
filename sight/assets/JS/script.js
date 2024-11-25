@@ -10,16 +10,20 @@ const itemOnPage = 5;
 let currentPage = 1;
 let persone = [];
 let filteredPersone = [];
-let totalItems, totalPages;
+let totalItems;
+let totalPages;
+
+
+
 
 addEventListener('load', async () => {
-    const data = await fetch(mochApi);
-    persone = await data.json();
+    const users = await fetch(mochApi);
+    persone = await users.json();
     filteredPersone = [...persone];
     totalItems = filteredPersone.length;
     totalPages = Math.ceil(totalItems / itemOnPage);
 
-    pageLoader(currentPage);
+    loadDataInMochApi(currentPage);
     search();
 });
 
@@ -39,7 +43,7 @@ function loadData() {
     showLoader();
 }
 
-function pageLoader(item) {
+function loadDataInMochApi(item) {
     showLoader(); 
 
     container.innerHTML = '';
@@ -91,29 +95,28 @@ function updatePag() {
     paginationContainer.innerHTML = '';
 
     for (let i = 1; i <= totalPages; i++) {
-        const pageButton = document.createElement('button');
-        pageButton.textContent = i;
-        pageButton.onclick = () => changePage(i);
-        paginationContainer.appendChild(pageButton);
+        const pageBtn = document.createElement('button');
+        pageBtn.textContent = i;
+        pageBtn.onclick = () => changePage(i);
+        paginationContainer.appendChild(pageBtn);
     }
 }
 
 function changePage(page) {
-    currentPage = page;    pageLoader(currentPage); 
+    currentPage = page; loadDataInMochApi(currentPage); 
 }
 
 function search() {
     searchInput.addEventListener('input', function() {
-        const query = this.value.toLowerCase();
+        const i = this.value.toLowerCase();
         filteredPersone = persone.filter(section => 
-            section.name.toLowerCase().includes(query)
+            section.name.toLowerCase().includes(i)
         );
-
         totalItems = filteredPersone.length; 
         totalPages = Math.ceil(totalItems / itemOnPage); 
         currentPage = 1; 
 
-        pageLoader(currentPage); 
+        loadDataInMochApi(currentPage); 
     });
 }
 
@@ -122,8 +125,7 @@ function sortData(order) {
         persone.sort((a, b) => a.name.localeCompare(b.name));
     }
     filteredPersone = [...persone]; 
-    totalPages = Math.ceil(filteredPersone.length / itemOnPage);
-    pageLoader(currentPage);
+    loadDataInMochApi(currentPage);
 }
 
 document.getElementById('sortName').addEventListener('click', () => {
@@ -131,3 +133,4 @@ document.getElementById('sortName').addEventListener('click', () => {
 });
 
 loadData();
+
